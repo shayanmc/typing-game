@@ -59,6 +59,33 @@ select:focus , button:focus{outline: 0;}
     text-align: center;
     width: 650px;
 }
+
+/* Level badge */
+#level-container{
+    position: absolute;
+    top: -38px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#level-badge{
+    background: linear-gradient(135deg,#ffd89b 0%, #19547b 100%);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px rgba(25,84,123,0.35), 0 2px 6px rgba(0,0,0,0.2) inset;
+    font-weight: 700;
+    letter-spacing: 1px;
+    transform-origin: center;
+}
+
+@keyframes levelPulse {
+    0% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.08); }
+    100% { transform: translateX(-50%) scale(1); }
+}
+
+.level-up { animation: levelPulse 700ms ease; }
 h2{
     background-color: rgba(13, 59, 11, 0.4) ;
     padding: 8px;

@@ -312,17 +312,29 @@ let score = 0;
 // init time
 let time = 10;
 
-//set difficulty
+// set difficulty (normalize to lowercase)
 let difficulty =
   localStorage.getItem("difficulty") !== null
     ? localStorage.getItem("difficulty")
-    : "Medium";
+    : "medium";
+difficulty = difficulty.toLowerCase();
 
-//set difficulty select value
+// set difficulty select value
 difficultySelect.value =
   localStorage.getItem("difficulty") !== null
     ? localStorage.getItem("difficulty")
-    : "Medium";
+    : difficulty;
+
+// time bonus map and current bonus (reduces as levels increase)
+const baseTimeBonusMap = { easy: 5, medium: 4, hard: 3 };
+let currentBonus = baseTimeBonusMap[difficulty] || 4;
+
+// level tracking
+let level = 1;
+const wordsPerLevel = 4; // every 4 correct words -> level up
+let correctCount = 0;
+const levelBadge = document.querySelector("#level-badge");
+if (levelBadge) levelBadge.innerText = `Level ${level}`;
 
 //focus on text on start
 text.focus();
@@ -383,13 +395,22 @@ text.addEventListener("input", (e) => {
 
     e.target.value = "";
 
-    if (difficulty === "hard") {
-      time += 3;
-    } else if (difficulty === "medium") {
-      time += 4;
-    } else {
-      time += 5;
+    // increment correct counter and possibly level up
+    correctCount++;
+    if (correctCount % wordsPerLevel === 0) {
+      level++;
+      if (levelBadge) {
+        levelBadge.innerText = `Level ${level}`;
+        levelBadge.classList.add("level-up");
+        setTimeout(() => levelBadge.classList.remove("level-up"), 800);
+      }
+
+      // make game harder by reducing time bonus (min 1)
+      currentBonus = Math.max(1, currentBonus - 1);
     }
+
+    // add time based on current bonus (which decreases with level)
+    time += currentBonus;
 
     updateTime();
   }
@@ -402,6 +423,8 @@ settingsBtn.addEventListener("click", () => {
 
 //settings select
 settingsForm.addEventListener("change", (e) => {
-  difficulty = e.target.value;
+  difficulty = e.target.value.toLowerCase();
   localStorage.setItem("difficulty", difficulty);
+  // reset current bonus according to chosen difficulty
+  currentBonus = baseTimeBonusMap[difficulty] || 4;
 });
