@@ -18,6 +18,14 @@
       <i class="fas fa-cog"></i>
     </button>
 
+    <button
+      class="christmas-btn"
+      id="christmas-btn"
+      title="Toggle Christmas theme"
+    >
+      <i class="fas fa-tree"></i>
+    </button>
+
     <div id="settings" class="settings">
       <form id="settings-form">
         <div>
@@ -52,6 +60,24 @@
       <p class="score-container">score : <span id="score">0</span></p>
 
       <div id="end-game-container" class="end-game-container"></div>
+    </div>
+
+    <!-- Decorative pine tree for Christmas theme -->
+    <div class="pine-tree" aria-hidden="true">
+      <svg
+        width="160"
+        height="220"
+        viewBox="0 0 160 220"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g transform="translate(0,0)">
+          <rect x="68" y="180" width="24" height="30" rx="3" fill="#7b4a2d" />
+          <polygon points="80,15 20,110 140,110" fill="#0b6623" />
+          <polygon points="80,55 10,150 150,150" fill="#0f7a2e" />
+          <polygon points="80,95 5,190 155,190" fill="#146b2a" />
+          <circle cx="80" cy="45" r="5" fill="#ffd700" />
+        </g>
+      </svg>
     </div>
     <script src="script.js" type="module"></script>
   </body>

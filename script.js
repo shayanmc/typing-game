@@ -9,6 +9,8 @@ const settingsBtn = document.querySelector("#settings-btn");
 const settings = document.querySelector("#settings");
 const settingsForm = document.querySelector("#settings-form");
 const difficultySelect = document.querySelector("#difficulty");
+const christmasBtn = document.querySelector("#christmas-btn");
+const body = document.body;
 
 //init words
 let randomWord;
@@ -127,6 +129,32 @@ text.addEventListener("input", (e) => {
 settingsBtn.addEventListener("click", () => {
   settings.classList.toggle("hide");
 });
+
+// Christmas theme: persist and toggle
+function applyChristmasMode(enabled) {
+  if (enabled) {
+    body.classList.add("christmas");
+    if (christmasBtn) christmasBtn.classList.add("active");
+    localStorage.setItem("christmas", "1");
+  } else {
+    body.classList.remove("christmas");
+    if (christmasBtn) christmasBtn.classList.remove("active");
+    localStorage.removeItem("christmas");
+  }
+}
+
+// init christmas from storage
+const christmasStored = localStorage.getItem("christmas");
+if (christmasStored) {
+  applyChristmasMode(true);
+}
+
+if (christmasBtn) {
+  christmasBtn.addEventListener("click", () => {
+    const isOn = body.classList.contains("christmas");
+    applyChristmasMode(!isOn);
+  });
+}
 
 //settings select
 settingsForm.addEventListener("change", (e) => {

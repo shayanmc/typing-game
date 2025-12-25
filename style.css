@@ -123,3 +123,80 @@ input{
     z-index: 1;
     background-color: inherit;
 }
+
+/* Christmas theme and decorations */
+
+.christmas-btn{
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+    background: linear-gradient(135deg,#e63946,#ffb4a2);
+    color: #fff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.pine-tree{
+    position: fixed;
+    left: 50%;
+    top: 8%;
+    width: 160px;
+    height: auto;
+    transform-origin: center;
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, 0) scale(0.95);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    z-index: 0;
+}
+
+/* Show the pine tree and tweak colors when christmas mode active */
+.christmas .pine-tree{
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+    z-index: 0;
+}
+.christmas .container{
+    background: linear-gradient(180deg,#0b4e1e,#0a3b15);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    border: 3px solid rgba(255,255,255,0.06);
+}
+
+/* apply when body has the christmas class */
+body.christmas{
+    background: linear-gradient(180deg,#0f2b1d 0%, #144d2e 60%);
+}
+body.christmas .container{
+    background: linear-gradient(180deg,#0b4e1e,#0a3b15);
+}
+
+
+body.christmas h2{ background-color: rgba(255,255,255,0.06); }
+body.christmas h1{ color: #ffe6a7; }
+
+/* simple snowfall background using radial gradient */
+body.christmas::before{
+    content: "";
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,0.9) 1px, transparent 1px);
+    background-size: 8px 8px;
+    opacity: 0.18;
+    animation: snow 12s linear infinite;
+    z-index: 0;
+}
+
+@keyframes snow{
+    from { background-position: 0 0; }
+    to { background-position: 0 800px; }
+}
+
+/* small responsive adjustments so tree doesn't overlap on small screens */
+@media (max-width: 700px){
+    .pine-tree{ left: 50%; top: 6%; width: 110px; transform: translate(-50%, 0) scale(0.9); }
+    .container{ width: 92%; }
+}
