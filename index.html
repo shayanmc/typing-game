@@ -1,54 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
       integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ="
       crossorigin="anonymous"
     />
-     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <title>speed Typer</title>
-</head>
-<body>
+  </head>
+  <body>
     <button class="settings-btn" id="settings-btn">
-        <i class="fas fa-cog"></i>
+      <i class="fas fa-cog"></i>
+    </button>
+
+    <button
+      class="christmas-btn"
+      id="christmas-btn"
+      title="Toggle Christmas theme"
+    >
+      <i class="fas fa-tree"></i>
     </button>
 
     <div id="settings" class="settings">
-        <form  id="settings-form">
-            <div>
-                <label for="difficulty">Difficulty</label>
-                <select id="difficulty">
-                    <option value="easy">Easy</option>
-                    <option value="medium">Medium</option>
-                    <option value="hard">Hard</option>
-                </select>
-            </div>
-        </form>
+      <form id="settings-form">
+        <div>
+          <label for="difficulty">Difficulty</label>
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </form>
     </div>
 
     <div class="container">
-        <h2> speed typer</h2>
-        <small>type the following : </small>
+      <div id="level-container">
+        <div id="level-badge">Level 1</div>
+      </div>
+      <h2>speed typer</h2>
+      <small>type the following : </small>
 
-        <h1 id="word"></h1>
+      <h1 id="word"></h1>
 
-        <input type="text" id="text" autocomplete="off" placeholder="Type the word here...">
+      <input
+        type="text"
+        id="text"
+        autocomplete="off"
+        placeholder="Type the word here..."
+      />
 
-        <p class="time-container">
-            Time left :     <span id="time">10 s</span>
-        </p>
+      <p class="time-container">Time left : <span id="time">10 s</span></p>
 
-        <p class="score-container">
-            score : <span id="score">0</span>
-        </p>
-        
-        <div id="end-game-container" class="end-game-container"></div>
+      <p class="score-container">score : <span id="score">0</span></p>
+
+      <div id="end-game-container" class="end-game-container"></div>
     </div>
-    <script src="script.js"></script>
-</body>
+
+    <!-- Decorative pine tree for Christmas theme -->
+    <div class="pine-tree" aria-hidden="true">
+      <svg
+        width="160"
+        height="220"
+        viewBox="0 0 160 220"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g transform="translate(0,0)">
+          <rect x="68" y="180" width="24" height="30" rx="3" fill="#7b4a2d" />
+          <polygon points="80,15 20,110 140,110" fill="#0b6623" />
+          <polygon points="80,55 10,150 150,150" fill="#0f7a2e" />
+          <polygon points="80,95 5,190 155,190" fill="#146b2a" />
+          <circle cx="80" cy="45" r="5" fill="#ffd700" />
+        </g>
+      </svg>
+    </div>
+    <script src="script.js" type="module"></script>
+  </body>
 </html>

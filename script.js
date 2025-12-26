@@ -1,3 +1,5 @@
+import { words } from "./asset/words.js";
+
 const word = document.querySelector("#word");
 const text = document.querySelector("#text");
 const scoreEl = document.querySelector("#score");
@@ -7,30 +9,8 @@ const settingsBtn = document.querySelector("#settings-btn");
 const settings = document.querySelector("#settings");
 const settingsForm = document.querySelector("#settings-form");
 const difficultySelect = document.querySelector("#difficulty");
-
-// List of words for game
-const words = [
-  "jumpy",
-  "tense",
-  "airplane",
-  "ball",
-  "pies",
-  "juice",
-  "warlike",
-  "bad",
-  "north",
-  "normal",
-  "blonde",
-  "silver",
-  "highfalutin",
-  "superficial",
-  "execute",
-  "eight",
-  "peace",
-  "admit",
-  "drag",
-  "loving",
-];
+const christmasBtn = document.querySelector("#christmas-btn");
+const body = document.body;
 
 //init words
 let randomWord;
@@ -41,17 +21,29 @@ let score = 0;
 // init time
 let time = 10;
 
-//set difficulty
+// set difficulty (normalize to lowercase)
 let difficulty =
   localStorage.getItem("difficulty") !== null
     ? localStorage.getItem("difficulty")
-    : "Medium";
+    : "medium";
+difficulty = difficulty.toLowerCase();
 
-//set difficulty select value
+// set difficulty select value
 difficultySelect.value =
   localStorage.getItem("difficulty") !== null
     ? localStorage.getItem("difficulty")
-    : "Medium";
+    : difficulty;
+
+// time bonus map and current bonus (reduces as levels increase)
+const baseTimeBonusMap = { easy: 5, medium: 4, hard: 3 };
+let currentBonus = baseTimeBonusMap[difficulty] || 4;
+
+// level tracking
+let level = 1;
+const wordsPerLevel = 4; // every 4 correct words -> level up
+let correctCount = 0;
+const levelBadge = document.querySelector("#level-badge");
+if (levelBadge) levelBadge.innerText = `Level ${level}`;
 
 //focus on text on start
 text.focus();
@@ -112,13 +104,22 @@ text.addEventListener("input", (e) => {
 
     e.target.value = "";
 
-    if (difficulty === "hard") {
-      time += 3;
-    } else if (difficulty === "medium") {
-      time += 4;
-    } else {
-      time += 5;
+    // increment correct counter and possibly level up
+    correctCount++;
+    if (correctCount % wordsPerLevel === 0) {
+      level++;
+      if (levelBadge) {
+        levelBadge.innerText = `Level ${level}`;
+        levelBadge.classList.add("level-up");
+        setTimeout(() => levelBadge.classList.remove("level-up"), 800);
+      }
+
+      // make game harder by reducing time bonus (min 1)
+      currentBonus = Math.max(1, currentBonus - 1);
     }
+
+    // add time based on current bonus (which decreases with level)
+    time += currentBonus;
 
     updateTime();
   }
@@ -129,8 +130,36 @@ settingsBtn.addEventListener("click", () => {
   settings.classList.toggle("hide");
 });
 
+// Christmas theme: persist and toggle
+function applyChristmasMode(enabled) {
+  if (enabled) {
+    body.classList.add("christmas");
+    if (christmasBtn) christmasBtn.classList.add("active");
+    localStorage.setItem("christmas", "1");
+  } else {
+    body.classList.remove("christmas");
+    if (christmasBtn) christmasBtn.classList.remove("active");
+    localStorage.removeItem("christmas");
+  }
+}
+
+// init christmas from storage
+const christmasStored = localStorage.getItem("christmas");
+if (christmasStored) {
+  applyChristmasMode(true);
+}
+
+if (christmasBtn) {
+  christmasBtn.addEventListener("click", () => {
+    const isOn = body.classList.contains("christmas");
+    applyChristmasMode(!isOn);
+  });
+}
+
 //settings select
 settingsForm.addEventListener("change", (e) => {
-  difficulty = e.target.value;
+  difficulty = e.target.value.toLowerCase();
   localStorage.setItem("difficulty", difficulty);
+  // reset current bonus according to chosen difficulty
+  currentBonus = baseTimeBonusMap[difficulty] || 4;
 });
